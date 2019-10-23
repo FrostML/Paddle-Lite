@@ -32,6 +32,15 @@ TEST(Resnet50, test_resnet50_lite_x86) {
   std::vector<Place> valid_places({Place{TARGET(kX86), PRECISION(kFloat)},
                                    Place{TARGET(kHost), PRECISION(kFloat)}});
 
+  std::string model_dir = FLAGS_model_dir;
+  std::vector<std::string> passes({"static_kernel_pick_pass",
+                                   "variable_place_inference_pass",
+                                   "type_target_cast_pass",
+                                   "variable_place_inference_pass",
+                                   "io_copy_kernel_pick_pass",
+                                   "variable_place_inference_pass",
+                                   "runtime_context_assign_pass"});
+  predictor.Build(model_dir, "", "", valid_places, passes);
   auto* input_tensor = predictor.GetInput(0);
   input_tensor->Resize(DDim(std::vector<DDim::value_type>({1, 3, 224, 224})));
   auto* data = input_tensor->mutable_data<float>();
