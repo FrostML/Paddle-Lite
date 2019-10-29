@@ -13,7 +13,6 @@
 // limitations under the License.
 #pragma once
 
-#include <Eigen/Core>
 #include <algorithm>
 #include <vector>
 #include "lite/core/kernel.h"
