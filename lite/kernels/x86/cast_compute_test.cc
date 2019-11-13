@@ -46,17 +46,17 @@ TEST(cast_x86, run_test) {
   std::vector<int64_t> out_shape{batch_size, 1, 3, 2};
   out.Resize(lite::DDim(out_shape));
 
-  auto x_data = x.mutable_data<float>();
+  auto x_data = x.mutable_data<int64_t>();
   auto out_data = out.mutable_data<uint8_t>();
 
   for (int64_t i = 0; i < x.dims().production(); i++) {
-    x_data[i] = static_cast<float>(i);
+    x_data[i] = static_cast<int64_t>(i);
   }
 
   CastCompute<float> cast;
   operators::CastParam param;
   param.X = &x;
-  param.in_dtype = 5;
+  param.in_dtype = 3;
   param.out_dtype = 20;
   param.Out = &out;
   std::unique_ptr<KernelContext> ctx(new KernelContext);
