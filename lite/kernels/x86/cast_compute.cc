@@ -25,8 +25,8 @@ REGISTER_LITE_KERNEL(cast,
     .Finalize();
 
 REGISTER_LITE_KERNEL(cast,
+                     kX86,
                      kInt32,
-                     kFloat,
                      kNCHW,
                      paddle::lite::kernels::x86::CastCompute<int32_t>,
                      def)
@@ -35,8 +35,8 @@ REGISTER_LITE_KERNEL(cast,
     .Finalize();
 
 REGISTER_LITE_KERNEL(cast,
+                     kX86,
                      kInt64,
-                     kFloat,
                      kNCHW,
                      paddle::lite::kernels::x86::CastCompute<int64_t>,
                      def)
