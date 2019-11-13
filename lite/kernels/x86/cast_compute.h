@@ -92,13 +92,6 @@ class CastCompute : public KernelLite<TARGET(kX86), Ptype> {
   virtual ~CastCompute() = default;
 };
 
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), float>
-    CastFp32;
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kInt32), int32_t>
-    CastInt32;
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kInt64), int64_t>
-    CastInt64;
-
 }  // namespace x86
 }  // namespace kernels
 }  // namespace lite
