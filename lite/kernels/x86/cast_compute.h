@@ -74,8 +74,8 @@ class CastCompute : public KernelLite<TARGET(kX86), PRECISION(kFloat)> {
   virtual ~CastCompute() = default;
 };*/
 
-template <PrecisionType Ptype, typename InT>
-class CastCompute : public KernelLite<TARGET(kX86), Ptype> {
+template <typename InT>
+class CastCompute : public KernelLite<TARGET(kX86), PRECISION(kFloat)> {
  public:
   using param_t = operators::CastParam;
 

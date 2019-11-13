@@ -14,12 +14,9 @@
 
 #include "lite/kernels/x86/cast_compute.h"
 
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), float>
-    CastFp32;
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), int32_t>
-    CastInt32;
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), int64_t>
-    CastInt64;
+typedef paddle::lite::kernels::x86::CastCompute<float> CastFp32;
+typedef paddle::lite::kernels::x86::CastCompute<int32_t> CastInt32;
+typedef paddle::lite::kernels::x86::CastCompute<int64_t> CastInt64;
 
 REGISTER_LITE_KERNEL(cast, kX86, kFloat, kNCHW, CastFp32, def)
     .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86))})
