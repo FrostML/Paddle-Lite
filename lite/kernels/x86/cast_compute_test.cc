@@ -56,8 +56,8 @@ TEST(cast_x86, run_test) {
   CastCompute<float> cast;
   operators::CastParam param;
   param.X = &x;
-  param.in_dtype = 5;
-  param.out_dtype = 3;
+  param.in_dtype = 2;
+  param.out_dtype = 2;
   param.Out = &out;
   std::unique_ptr<KernelContext> ctx(new KernelContext);
   ctx->As<X86Context>();
