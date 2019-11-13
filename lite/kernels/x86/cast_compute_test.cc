@@ -57,7 +57,7 @@ TEST(cast_x86, run_test) {
   operators::CastParam param;
   param.X = &x;
   param.in_dtype = 5;
-  param.out_dtype = 3;
+  param.out_dtype = 20;
   param.Out = &out;
   std::unique_ptr<KernelContext> ctx(new KernelContext);
   ctx->As<X86Context>();
