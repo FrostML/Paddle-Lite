@@ -47,7 +47,7 @@ TEST(cast_x86, run_test) {
   out.Resize(lite::DDim(out_shape));
 
   auto x_data = x.mutable_data<float>();
-  auto out_data = out.mutable_data<int32_t>();
+  auto out_data = out.mutable_data<int64_t>();
 
   for (int64_t i = 0; i < x.dims().production(); i++) {
     x_data[i] = static_cast<float>(1);
@@ -56,6 +56,8 @@ TEST(cast_x86, run_test) {
   CastCompute<float> cast;
   operators::CastParam param;
   param.X = &x;
+  param.in_dtype = 5;
+  param.out_dtype = 3;
   param.Out = &out;
   std::unique_ptr<KernelContext> ctx(new KernelContext);
   ctx->As<X86Context>();
@@ -63,7 +65,7 @@ TEST(cast_x86, run_test) {
   cast.SetParam(param);
   cast.Run();
 
-  std::vector<int32_t> ref_results = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+  std::vector<int64_t> ref_results = {1, 1, 1, 1, 1, 1, 1, 1, 1};
   for (int i = 0; i < out.dims().production(); i++) {
     EXPECT_NEAR(out_data[i], ref_results[i], 1e-5);
   }
