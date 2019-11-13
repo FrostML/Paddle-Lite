@@ -14,32 +14,17 @@
 
 #include "lite/kernels/x86/cast_compute.h"
 
-REGISTER_LITE_KERNEL(cast,
-                     kX86,
-                     kFloat,
-                     kNCHW,
-                     paddle::lite::kernels::x86::CastCompute<float>,
-                     def)
+REGISTER_LITE_KERNEL(cast, kX86, kFloat, kNCHW, CastFp32, def)
     .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86))})
     .BindOutput("Out", {LiteType::GetTensorTy(TARGET(kX86))})
     .Finalize();
 
-REGISTER_LITE_KERNEL(cast,
-                     kX86,
-                     kInt32,
-                     kNCHW,
-                     paddle::lite::kernels::x86::CastCompute<int32_t>,
-                     def)
+REGISTER_LITE_KERNEL(cast, kX86, kInt32, kNCHW, CastInt32, def)
     .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86), PRECISION(kInt32))})
     .BindOutput("Out", {LiteType::GetTensorTy(TARGET(kX86))})
     .Finalize();
 
-REGISTER_LITE_KERNEL(cast,
-                     kX86,
-                     kInt64,
-                     kNCHW,
-                     paddle::lite::kernels::x86::CastCompute<int64_t>,
-                     def)
+REGISTER_LITE_KERNEL(cast, kX86, kInt64, kNCHW, CastInt64, def)
     .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86), PRECISION(kInt64))})
     .BindOutput("Out", {LiteType::GetTensorTy(TARGET(kX86))})
     .Finalize();

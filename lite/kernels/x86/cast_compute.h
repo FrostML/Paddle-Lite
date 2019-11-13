@@ -56,7 +56,7 @@ class CastOpFunctor {
   const lite::Context<Target>& ctx;
 };
 
-template <typename InT>
+/*template <typename InT>
 class CastCompute : public KernelLite<TARGET(kX86), PRECISION(kFloat)> {
  public:
   using param_t = operators::CastParam;
@@ -72,7 +72,32 @@ class CastCompute : public KernelLite<TARGET(kX86), PRECISION(kFloat)> {
         CastOpFunctor<lite::TargetType::kX86, InT>(x, out, context));
   }
   virtual ~CastCompute() = default;
+};*/
+
+template <PrecisionType Ptype, typename InT>
+class CastCompute : public KernelLite<TARGET(kX86), Ptype> {
+ public:
+  using param_t = operators::CastParam;
+
+  void Run() override {
+    auto param = param_.get_mutable<param_t>();
+    auto& context = ctx_->As<X86Context>();
+    auto x = param->X;
+    auto out = param->Out;
+    auto out_dtype = param->out_dtype;
+    paddle::lite::fluid::VisitDataType(
+        static_cast<framework::proto::VarType::Type>(out_dtype),
+        CastOpFunctor<lite::TargetType::kX86, InT>(x, out, context));
+  }
+  virtual ~CastCompute() = default;
 };
+
+typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), float>
+    CastFp32;
+typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kInt32), int32_t>
+    CastInt32;
+typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kInt64), int64_t>
+    CastInt64;
 
 }  // namespace x86
 }  // namespace kernels
