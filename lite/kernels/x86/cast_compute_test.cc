@@ -40,17 +40,17 @@ TEST(cast_x86, init) {
 TEST(cast_x86, run_test) {
   lite::Tensor x, out;
   constexpr int batch_size = 1;
-  std::vector<int64_t> x_shape{batch_size, 1, 3, 3};
+  std::vector<int64_t> x_shape{batch_size, 1, 3, 2};
   x.Resize(lite::DDim(x_shape));
 
-  std::vector<int64_t> out_shape{batch_size, 1, 3, 3};
+  std::vector<int64_t> out_shape{batch_size, 1, 3, 2};
   out.Resize(lite::DDim(out_shape));
 
   auto x_data = x.mutable_data<float>();
-  auto out_data = out.mutable_data<int64_t>();
+  auto out_data = out.mutable_data<uint8_t>();
 
   for (int64_t i = 0; i < x.dims().production(); i++) {
-    x_data[i] = static_cast<float>(1);
+    x_data[i] = static_cast<float>(i);
   }
 
   CastCompute<float> cast;
@@ -65,7 +65,7 @@ TEST(cast_x86, run_test) {
   cast.SetParam(param);
   cast.Run();
 
-  std::vector<int64_t> ref_results = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+  std::vector<uint8_t> ref_results = {0, 1, 2, 3, 4, 5};
   for (int i = 0; i < out.dims().production(); i++) {
     EXPECT_NEAR(out_data[i], ref_results[i], 1e-5);
   }
