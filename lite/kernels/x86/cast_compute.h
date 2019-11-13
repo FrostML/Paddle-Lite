@@ -66,6 +66,7 @@ class CastCompute : public KernelLite<TARGET(kX86), PRECISION(kFloat)> {
     auto& context = ctx_->As<X86Context>();
     auto x = param->X;
     auto out = param->Out;
+    auto in_dtype = param->in_dtype;
     auto out_dtype = param->out_dtype;
     paddle::lite::fluid::VisitDataType(
         static_cast<framework::proto::VarType::Type>(out_dtype),

@@ -23,3 +23,23 @@ REGISTER_LITE_KERNEL(cast,
     .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86))})
     .BindOutput("Out", {LiteType::GetTensorTy(TARGET(kX86))})
     .Finalize();
+
+REGISTER_LITE_KERNEL(cast,
+                     kInt32,
+                     kFloat,
+                     kNCHW,
+                     paddle::lite::kernels::x86::CastCompute<int32_t>,
+                     def)
+    .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86), PRECISION(kInt32))})
+    .BindOutput("Out", {LiteType::GetTensorTy(TARGET(kX86))})
+    .Finalize();
+
+REGISTER_LITE_KERNEL(cast,
+                     kInt64,
+                     kFloat,
+                     kNCHW,
+                     paddle::lite::kernels::x86::CastCompute<int64_t>,
+                     def)
+    .BindInput("X", {LiteType::GetTensorTy(TARGET(kX86), PRECISION(kInt64))})
+    .BindOutput("Out", {LiteType::GetTensorTy(TARGET(kX86))})
+    .Finalize();
