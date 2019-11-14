@@ -27,15 +27,15 @@ inline std::vector<int> get_new_shape(
   std::vector<int> vec_new_shape;
   for (size_t i = 0; i < list_new_shape_tensor.size(); ++i) {
     auto tensor = list_new_shape_tensor[i];
-    lite::Tensor temp;
+    /*lite::Tensor temp;
     auto temp_data = temp.mutable_data<int32_t>();
     auto tensor_data = tensor->data<int32_t>();
     cudaMemcpy(temp_data,
                tensor_data,
                tensor->dims().production() * sizeof(float),
-               cudaMemcpyDeviceToHost);
+               cudaMemcpyDeviceToHost);*/
 
-    vec_new_shape.push_back(static_cast<int32_t>(*temp_data));
+    vec_new_shape.push_back(static_cast<int32_t>(*tensor->data<int32_t>()));
   }
 
   return vec_new_shape;
@@ -45,16 +45,16 @@ template <typename T>
 inline std::vector<T> get_new_data_from_tensor(const Tensor* new_data_tensor) {
   std::vector<T> vec_new_data;
   auto* new_data = new_data_tensor->data<T>();
-  lite::Tensor cpu_starts_tensor;
+  /*lite::Tensor cpu_starts_tensor;
   auto cpu_starts_tensor_data = cpu_starts_tensor.mutable_data<T>();
   cudaMemcpy(cpu_starts_tensor_data,
              new_data,
              new_data_tensor->dims().production() * sizeof(T),
-             cudaMemcpyDeviceToHost);
+             cudaMemcpyDeviceToHost);*/
 
-  auto new_data_ = cpu_starts_tensor.data<T>();
-  vec_new_data = std::vector<T>(
-      new_data_, new_data_ + new_data_tensor->dims().production());
+  // auto new_data_ = cpu_starts_tensor.data<T>();
+  vec_new_data =
+      std::vector<T>(new_data, new_data + new_data_tensor->dims().production());
   return vec_new_data;
 }
 
