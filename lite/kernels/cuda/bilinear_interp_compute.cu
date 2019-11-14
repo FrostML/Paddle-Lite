@@ -34,8 +34,10 @@ inline std::vector<int> get_new_shape(
                tensor_data,
                tensor->dims().production() * sizeof(float),
                cudaMemcpyDeviceToHost);*/
-
-    vec_new_shape.push_back(static_cast<int32_t>(*tensor->data<int32_t>()));
+    int32_t a = *tensor->data<int32_t>();
+    LOG(INFO) << 1;
+    vec_new_shape.push_back(static_cast<int32_t>(a));
+    LOG(INFO) << 2;
   }
 
   return vec_new_shape;
