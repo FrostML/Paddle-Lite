@@ -33,10 +33,10 @@ inline std::vector<int> get_new_shape(
     lite::Tensor temp;
     auto temp_data = temp.mutable_data<int32_t>();
     auto tensor_data = tensor->data<int32_t>();
-    cudaMemcpy(temp_data,
-               tensor_data,
-               tensor->dims().production() * sizeof(int32_t),
-               cudaMemcpyDeviceToHost);
+    CHECK(cudaMemcpy(temp_data,
+                     tensor_data,
+                     tensor->dims().production() * sizeof(int32_t),
+                     cudaMemcpyDeviceToHost) == cudaSuccess);
     // int32_t a = *tensor->data<int32_t>();
     LOG(INFO) << 1;
     vec_new_shape.push_back(static_cast<int32_t>(*temp_data));
