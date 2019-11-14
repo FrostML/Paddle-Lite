@@ -147,19 +147,23 @@ void BilinearInterpCompute::Run() {
   auto list_new_shape_tensor = param.SizeTensor;
   if (list_new_shape_tensor.size() > 0) {
     // have size tensor
+    LOG(INFO) << 3;
     auto new_size = get_new_shape(list_new_shape_tensor);
     out_h = new_size[0];
     out_w = new_size[1];
   } else {
+    LOG(INFO) << 4;
     auto scale_tensor = param.Scale;
     if (scale_tensor != nullptr) {
       auto scale_data = get_new_data_from_tensor<float>(scale_tensor);
       scale = scale_data[0];
     }
+    LOG(INFO) << 5;
     if (scale > 0) {
       out_h = static_cast<int>(in_h * scale);
       out_w = static_cast<int>(in_w * scale);
     }
+    LOG(INFO) << 6;
     if (out_size != nullptr) {
       lite::Tensor sizes;
       float* size_data = sizes.mutable_data<float>();
@@ -170,7 +174,7 @@ void BilinearInterpCompute::Run() {
       out_w = static_cast<int>(size_data[1]);
     }
   }
-
+  LOG(INFO) << 7;
   auto output_data = output->mutable_data<float>(TARGET(kCUDA));
   if (in_h == out_h && in_w == out_w) {
     cudaMemcpy(output_data,
