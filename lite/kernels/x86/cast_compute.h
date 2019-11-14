@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include <utility>
 #include "lite/core/kernel.h"
 #include "lite/core/op_registry.h"
 #include "lite/core/types.h"
@@ -77,11 +78,16 @@ class CastCompute : public KernelLite<TARGET(kX86), PRECISION(kFloat)> {
 template <PrecisionType Ptype, typename InT>
 class CastCompute : public KernelLite<TARGET(kX86), Ptype> {
  public:
-  using param_t = operators::CastParam;
+  virtual void PrepareForRun();
+
+  virtual void ReInitWhenNeeded() {
+    CHECK(impl_);
+    impl_->ReInitWhenNeeded();
+  }
 
   void Run() override {
-    auto param = param_.get_mutable<param_t>();
-    auto& context = ctx_->As<X86Context>();
+    auto& param = this->Param<param_t>();
+    auto& context = this->ctx_->As<X86Context>();
     auto x = param->X;
     auto out = param->Out;
     auto out_dtype = param->out_dtype;
@@ -90,7 +96,35 @@ class CastCompute : public KernelLite<TARGET(kX86), Ptype> {
         CastOpFunctor<lite::TargetType::kX86, InT>(x, out, context));
   }
   virtual ~CastCompute() = default;
+
+ private:
+  using param_t = operators::CastParam;
+  KernelLite<TARGET(kARM), Ptype>* impl_{nullptr};
 };
+
+void CastCompute<PRECISION(kFloat), float>::PrepareForRun() {
+  auto& param = *param_.get_mutable<param_t>();
+  impl_->SetContext(std::move(this->ctx_));
+  impl_->SetParam(param);
+  impl_->PrepareForRun();
+  is_first_epoch_ = false;
+}
+
+void CastCompute<PRECISION(kInt32), int32_t>::PrepareForRun() {
+  auto& param = *param_.get_mutable<param_t>();
+  impl_->SetContext(std::move(this->ctx_));
+  impl_->SetParam(param);
+  impl_->PrepareForRun();
+  is_first_epoch_ = false;
+}
+
+void CastCompute<PRECISION(kInt64), int64_t>::PrepareForRun() {
+  auto& param = *param_.get_mutable<param_t>();
+  impl_->SetContext(std::move(this->ctx_));
+  impl_->SetParam(param);
+  impl_->PrepareForRun();
+  is_first_epoch_ = false;
+}
 
 }  // namespace x86
 }  // namespace kernels

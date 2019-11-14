@@ -16,9 +16,9 @@
 
 typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), float>
     CastFp32;
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), int32_t>
+typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kInt32), int32_t>
     CastInt32;
-typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kFloat), int64_t>
+typedef paddle::lite::kernels::x86::CastCompute<PRECISION(kInt64), int64_t>
     CastInt64;
 
 REGISTER_LITE_KERNEL(cast, kX86, kFloat, kNCHW, CastFp32, def)
