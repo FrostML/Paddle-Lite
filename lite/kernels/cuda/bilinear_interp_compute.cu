@@ -177,6 +177,8 @@ void BilinearInterpCompute::Run() {
       out_w = static_cast<int>(size_data[1]);
     }
   }
+  LOG(INFO) << out_h;
+  LOG(INFO) << out_w;
   LOG(INFO) << 7;
   auto output_data = output->mutable_data<float>(TARGET(kCUDA));
   if (in_h == out_h && in_w == out_w) {
