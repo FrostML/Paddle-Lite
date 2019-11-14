@@ -154,6 +154,8 @@ void BilinearInterpCompute::Run() {
     auto new_size = get_new_shape(list_new_shape_tensor);
     out_h = new_size[0];
     out_w = new_size[1];
+    LOG(INFO) << out_h;
+    LOG(INFO) << out_w;
   } else {
     LOG(INFO) << 4;
     auto scale_tensor = param.Scale;
