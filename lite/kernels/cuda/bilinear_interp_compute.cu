@@ -25,9 +25,11 @@ inline std::vector<int> get_new_shape(
     std::vector<const lite::Tensor*> list_new_shape_tensor) {
   // get tensor from
   std::vector<int> vec_new_shape;
+  LOG(INFO) << 8;
   for (size_t i = 0; i < list_new_shape_tensor.size(); ++i) {
     auto tensor = list_new_shape_tensor[i];
     if (tensor == nullptr) LOG(INFO) << "empty";
+    LOG(INFO) << 9;
     /*lite::Tensor temp;
     auto temp_data = temp.mutable_data<int32_t>();
     auto tensor_data = tensor->data<int32_t>();
